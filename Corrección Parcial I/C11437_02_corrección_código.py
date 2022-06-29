@@ -25,10 +25,6 @@ print("""
                                                           
 """)
 
-# Definición de función promedio.
-def promedio(t1, t2):
-    return (t1+t2)/2
-
 # Definición de función histograma individual.
 def histograma_indiv(temp_error_zona_x, temp_corr_zona_x):
     asteriscos = int(temp_error_zona_x)
@@ -42,6 +38,10 @@ def histograma(temp_error_zona_1, temp_corr_zona_1, temp_error_zona_2, temp_corr
     else:
         print("Zona 1: %s" % histograma_indiv(temp_error_zona_1, temp_corr_zona_1))
         print("Zona 2: %s" % histograma_indiv(temp_error_zona_2, temp_corr_zona_2))
+
+# Definición de función promedio.
+def promedio(t1, t2):
+    return (t1+t2)/2
 
 # Definición de función menú.
 def menu():
@@ -84,7 +84,7 @@ def func_principal():
                         break
 
                 term_2 = "X"
-                while term_2 != "O" and term_2 != "C" and term_2 != "E":
+                while term_2 != "O" and term_2 != "C" and term_2 != "E" or term_2 == term_1:
                     term_2 = str(input("Termómetro  2: "))
 
                 temp_2 = "X"
@@ -97,7 +97,7 @@ def func_principal():
                         break
 
                 term_3 = "X"
-                while term_3 != "O" and term_3 != "C" and term_3 != "E":
+                while term_3 != "O" and term_3 != "C" and term_3 != "E" or term_3 == term_2 or term_3 == term_1:
                     term_3 = str(input("Termómetro  3: "))
 
                 temp_3 = "X"
