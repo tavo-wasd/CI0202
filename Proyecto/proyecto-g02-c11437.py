@@ -44,9 +44,7 @@ def gauss_jordan(M):
 
     # Verificar que la matriz cumpla (n) * (n+1)
     for i in range(len(M)):
-        if len(M[i]) == (len(M)+1):
-            condicion_34 = True
-        else:
+        if len(M[i]) != (len(M)+1):
             return 1 # Archivo no aceptado
 
     # Reducir fila
@@ -64,13 +62,13 @@ def gauss_jordan(M):
                 return 2 # No tiene solución
 
         # Dividir fila por el número
-        multiplicar_fila(M, i, ((1)/(M[i][i])))
+        multiplicar_fila(M, i, 1/M[i][i])
 
-        # Para el resto de filas se resta de tal
-        # forma que la columna i se convierta en 0
+        # Para el resto de filas se resta de forma que
+        # la columna i se convierta en 0
         for j in range(len(M)):
             if M[j] != M[i]:
-                suma_fila(M, j, i, (-(M[j][i])))
+                suma_fila(M, j, i, -M[j][i])
     return M
 
 #  _____ _    ____  _____   _____ ____  _____ ____  
@@ -82,31 +80,29 @@ def gauss_jordan(M):
 
 def cargar_matriz(modo = "r"):
 
-    # Verificar que el archivo existe
+    # Evento archivo existe
     try:
         print("\n")
         nombre = input("Ingrese el nombre de un archivo de matriz en formato csv: ")
         archivo = open(nombre, modo)
         M = []
-        for linea in archivo:
-            fila = []
-            linea = linea.replace("\n", "")
-            lista = linea.split(",")
-            for elem_hilera in lista:
-                num = float(elem_hilera)
-                fila.append(num)
-            M.append(fila)
+        for linea_csv in archivo:
+            i = []
+            elementos_linea = (linea_csv.replace("\n", "")).split(",")
+            for j in elementos_linea:
+                # Evento cada elemento es un número real
+                try:
+                    i.append(float(j))
+                except:
+                    return 1 # Posee elemento no real, archivo de matriz no aceptado
+            M.append(i)
         archivo.close()
     except:
         return 0 # El archivo ingresado no existe
 
-    # Verificar que cada elemento sea un número real
-    try:
-        for i in range(len(M)):
-            for j in range(len(M[i])):
-                float(M[i][j])
-    except:
-        return 1 # Archivo de matriz no aceptado
+    # Evento matriz válida
+    if len(M) == 0:
+        return 1 # Matriz vacía, archivo de matriz no aceptado
 
     # Lectura correcta, cumple condiciones, retorna matriz
     return M
@@ -142,18 +138,10 @@ def principal():
         elif matriz_reducida == 2:
             print("No existe solución para el sistema.")
             return False
-        else:
-            return matriz_reducida
-matriz_reducida = principal()
 
-if matriz_reducida != False:
-    # Escribir Soluciones
+    # En caso de procedimiento correcto, escribir soluciones
     for i in range(len(matriz_reducida)):
-        print("v%.d = %.5f" % ((i+1), matriz_reducida[i][-1]), end='\n')
+        print("v%.d = %.5f" % ((i+1), matriz_reducida[i][-1]))
 
-
-###########################################3
-
- # NO TOMA EN CUENTA ARCHIVOS VACÍOS
-
- ##########################################
+# Llamada a la función principal
+matriz_reducida = principal()
